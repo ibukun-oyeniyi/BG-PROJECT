@@ -3,12 +3,18 @@ module.exports = (sequelize, Sequelize) => {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: false
+      },
+      permissions: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: true
       }
     });
-
+  
     Role.associate = function(models) {
-      Role.hasMany(models.User, { foreignKey: 'roleId' });
+      Role.hasMany(models.User, { foreignKey: 'roleId', onDelete: "cascade" });
     };
+  
     return Role;
-};
+  };
+  
