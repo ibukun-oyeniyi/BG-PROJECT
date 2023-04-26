@@ -11,7 +11,7 @@ module.exports = (sequelize, Sequelize) => {
       },
     });
     User.associate = function(model) {
-      User.belongsTo(model.roles, { foreignKey: 'roleId',onDelete: "cascade" });
+      User.belongsTo(model.role, { foreignKey: 'roleId',onDelete: "cascade" });
     };
     return User;
   };
