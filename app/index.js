@@ -1,12 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const db = require('./config/dbConfig')
-// const authRoutes = require("./app/routes/auth.routes")
-// const todoRoutes = require("./app/routes/todo.routes")
+const authRoutes = require("./routes/auth.routes")
+const operatorRoutes = require("./routes/operator.routes")
+const adminRoutes = require("./routes/admin.routes")
 // const taskRoutes = require("./app/routes/task.routes")
 // const tagRoutes = require("./app/routes/tag.routes")
 // const todoTagRoutes = require("./app/routes/todoTag.routes")
-// const {verifyUser} = require("./app/middleware/authMiddleware")
 
 const app = express();
 var corsOptions = {
@@ -20,7 +20,7 @@ db.sequelize.authenticate()
         console.log(err);
     })
 
-db.sequelize.sync({})
+db.sequelize.sync({force: false})
     .then(() => {
         console.log("Yes Resyncing to the database has been done");
     }).catch (err => {
@@ -35,9 +35,9 @@ app.use(cors(corsOptions));
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to Todo application." });
 });
-// app.use("/api/v1/auth", authRoutes)
-// app.use("/api/v1", todoRoutes)
-// app.use("/api/v1", taskRoutes)
+app.use("/api/v1/auth", authRoutes)
+app.use("/api/v1", operatorRoutes)
+app.use("/api/v1/admin", adminRoutes)
 // app.use("/api/v1", tagRoutes)
 // app.use("/api/v1", todoTagRoutes)
 
