@@ -9,9 +9,12 @@ module.exports = (sequelize, Sequelize) => {
           type: Sequelize.STRING,
           allowNull: false
       },
+      role: {
+        type: Sequelize.ENUM("admin", "operator", "field_officer"),
+        allowNull: false,
+        defaultValue: "operator"
+      }
     });
-    User.associate = function(model) {
-      User.belongsTo(model.role, { foreignKey: 'roleId',onDelete: "cascade" });
-    };
+    
     return User;
   };
