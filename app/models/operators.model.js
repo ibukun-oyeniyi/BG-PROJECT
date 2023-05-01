@@ -1,7 +1,3 @@
-const { validateLGA } = require("../utils/validateLocalGovernment");
-const { validateState } = require("../utils/validateState");
-
-
 module.exports = (sequelize, Sequelize) => {
     const Operator = sequelize.define("operator", {
       firstName: {
@@ -30,20 +26,7 @@ module.exports = (sequelize, Sequelize) => {
           isIn: [['Nigeria']],
         },
       },
-      state: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-          custom: validateState,
-        },
-      },
-      lga: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-          custom: validateLGA,
-        },
-      },
+     
       sex: {
         type: Sequelize.ENUM('male', 'female'),
         allowNull: false,
@@ -66,17 +49,13 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false,
         defaultValue: false,
       },
-      operatorId: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-        defaultValue: '0',
-      },
       
     });
   
     Operator.associate = function(models) {
-      Operator.belongsTo(models.role);
+      Operator.belongsTo(models.user,{ foreignKey: 'userId', onDelete: "cascade" });
+      Operator.belongsTo(models.state,{ foreignKey: 'stateId', onDelete: "cascade" });
+      Operator.belongsTo(models.state,{ foreignKey: 'stateId', onDelete: "cascade" });
     };
   
     return Operator;
