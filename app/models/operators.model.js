@@ -11,13 +11,14 @@ module.exports = (sequelize, Sequelize) => {
       phone: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
         validate: {
-          is: {
-            args: /^\+(?:[0-9] ?){6,14}[0-9]$/,
-            msg: "Invalid phone number format.",
-          },
+            is: {
+                args: /^\+(?:[0-9] ?){6,14}[0-9]$/,
+                msg: "Invalid phone number format.",
+            },
         },
-      },
+    },
       nationality: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -49,13 +50,16 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false,
         defaultValue: false,
       },
-      
+      operatorId:{
+        type: Sequelize.STRING,
+        unique: true,
+      }
     });
   
     Operator.associate = function(models) {
       Operator.belongsTo(models.user,{ foreignKey: 'userId', onDelete: "cascade" });
       Operator.belongsTo(models.state,{ foreignKey: 'stateId', onDelete: "cascade" });
-      Operator.belongsTo(models.state,{ foreignKey: 'stateId', onDelete: "cascade" });
+      Operator.belongsTo(models.lga,{ foreignKey: 'lgaId', onDelete: "cascade" });
     };
   
     return Operator;

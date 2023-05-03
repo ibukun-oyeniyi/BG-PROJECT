@@ -3,7 +3,7 @@ const operatorController = require('../controller/operator.controller')
 const {verifyOperator} = require("../middleware/auth.middleware")
 const router = express.Router()
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: 'uploads/',strict: false });
 const bodyParser = require('body-parser');
 const {validateOperatorData} = require("../middleware/validateOperatorData.middleware")
 
@@ -57,7 +57,7 @@ router.get('/:userId/view',verifyOperator,async (req,res)=>{
     }
 })
 
-router.post('/:userId/operator/submit',verifyOperator,upload.single('file'), bodyParser.urlencoded({ extended: true }),validateOperatorData,async (req,res)=>{
+router.post('/:userId/submit',verifyOperator,upload.single('file'), bodyParser.urlencoded({ extended: true }),validateOperatorData,async (req,res)=>{
     try{
         if(req.file){
         req.body.userPicture = req.file.filename

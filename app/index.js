@@ -4,6 +4,7 @@ const db = require('./config/dbConfig')
 const authRoutes = require("./routes/auth.routes")
 const operatorRoutes = require("./routes/operator.routes")
 const adminRoutes = require("./routes/admin.routes")
+const productRoutes = require("./routes/product.routes")
 // const taskRoutes = require("./app/routes/task.routes")
 // const tagRoutes = require("./app/routes/tag.routes")
 // const todoTagRoutes = require("./app/routes/todoTag.routes")
@@ -36,8 +37,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to Todo application." });
 });
 app.use("/api/v1/auth", authRoutes)
-app.use("/api/v1", operatorRoutes)
+app.use("/api/v1/operator", operatorRoutes)
 app.use("/api/v1/admin", adminRoutes)
+app.use("/api/v1/product", productRoutes)
 // app.use("/api/v1", tagRoutes)
 // app.use("/api/v1", todoTagRoutes)
 

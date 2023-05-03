@@ -15,12 +15,33 @@ const createOperator = async (operatorData, done) => {
         where: { name: operatorData.lga },
         defaults: { stateId: state.id }
       });
-  
+
+      const maxOperator = await db.operator.max('id');
+      console.log(typeof(maxOperator))
+      let newId = (maxOperator ? parseInt(maxOperator.substr(3), 10) + 1 : 1);
+        let operatorId = `OP-${newId.toString().padStart(6, '0')}`;
+        while (await db.operator.findOne({ where: { operatorId } })) {
+        newId++;
+        operatorId = `OP-${newId.toString().padStart(6, '0')}`;
+        }
       // Create a new operator row in the operators table with the specified user_id, state_id, and local_government_area_id
       operatorData["stateId"] = state.id
       operatorData["lgaId"] = lga.id
+      operatorData['operatorId'] = operatorId
+
       const operator = await db.operator.create(operatorData);
-      done(undefined, operator);
+      const response = {
+        operatorId: operator.operatorId,
+        firstName: operator.firstName,
+        lastName: operator.lastName,
+        phone:operator.phone,
+        sex:operator.sex,
+        nin:operator.nin,
+        nationality:operator.nationality,
+        state: operatorData.state,
+        lga: operatorData.lga
+      };
+      done(undefined, response);
     } catch (err) {
       console.log(err);
       done("Error creating operator");
