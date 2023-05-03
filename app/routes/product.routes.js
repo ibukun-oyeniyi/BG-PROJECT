@@ -21,8 +21,9 @@ router.get('/:userId/view',verifyOperator,verifiedOperator,async (req,res)=>{
     }
 })
 //create product
-router.post('/:operatorId',verifyOperator,verifiedOperator,async (req,res)=>{
+router.post('/:userId/:operatorId',verifyOperator,verifiedOperator,async (req,res)=>{
     try{
+        const userId = parseInt(req.params.userId)
         const operatorId = parseInt(req.params.operatorId)
         req.body["operatorId"] = operatorId
         productController.createProduct(req.body,(err,result) =>{
