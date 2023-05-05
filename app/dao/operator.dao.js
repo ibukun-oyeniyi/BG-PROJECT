@@ -18,7 +18,7 @@ const createOperator = async (operatorData, done) => {
 
       const maxOperator = await db.operator.max('id');
       console.log(typeof(maxOperator))
-      let newId = (maxOperator ? parseInt(maxOperator.substr(3), 10) + 1 : 1);
+      let newId = (maxOperator ? maxOperator + 1 : 1);
         let operatorId = `OP-${newId.toString().padStart(6, '0')}`;
         while (await db.operator.findOne({ where: { operatorId } })) {
         newId++;

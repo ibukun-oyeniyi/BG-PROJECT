@@ -3,7 +3,16 @@ const operatorController = require('../controller/operator.controller')
 const {verifyOperator} = require("../middleware/auth.middleware")
 const router = express.Router()
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/',strict: false });
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "uploads");
+    },
+    filename: (req, file, cb) => {
+      cb(null, 'tgtemplate' + '-' + Date.now() + '.png');
+    },
+});
+const upload = multer({ storage: storage})
 const bodyParser = require('body-parser');
 const {validateOperatorData} = require("../middleware/validateOperatorData.middleware")
 
