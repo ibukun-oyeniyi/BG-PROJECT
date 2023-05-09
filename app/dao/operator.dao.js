@@ -7,10 +7,17 @@ const createOperator = async (operatorData, done) => {
         if (existingOperator) {
         await db.operator.destroy({ where: { userId: operatorData.userId } });
         }
-      // Find the state and local government area rows, or create them if they don't exist
-      const [state, createdState] = await db.state.findOrCreate({
-        where: { name: operatorData.state },
+      // Convert the first letter of each word in the operatorData.state input to uppercase
+      const stateName = operatorData.state.toLowerCase().replace(/\b\w/g, (match) => match.toUpperCase());
+
+      // Query the state table using the capitalized state name
+      const state = await db.state.findOne({
+        where: { name: stateName },
       });
+      if (state.isDisabled){
+        return done("You are not permitted to add this state");
+      }
+
       const [lga, createdLga] = await db.lga.findOrCreate({
         where: { name: operatorData.lga },
         defaults: { stateId: state.id }
