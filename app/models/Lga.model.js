@@ -13,7 +13,9 @@ module.exports = (sequelize, Sequelize) => {
           notEmpty: true,
           async validLGA(lga) {
             const state = await this.getState();
-            if (!statesLGAs[state.name].includes(lga)) {
+            const states = state.name.toLowerCase().replace(/\b\w/g, (match) => match.toUpperCase());
+            const lgas = lga.toLowerCase().replace(/\b\w/g, (match) => match.toUpperCase());
+            if (!statesLGAs[states].includes(lgas)) {
               throw new Error("Invalid Local Government Area");
             }
           }
