@@ -57,6 +57,7 @@ module.exports = (sequelize, Sequelize) => {
     });
   
     Operator.associate = function(models) {
+      Operator.hasMany(models.field_officer,{ foreignKey: 'operatorId',onDelete: "cascade"});
       Operator.belongsTo(models.user,{ foreignKey: 'userId', onDelete: "cascade" });
       Operator.belongsTo(models.state,{ foreignKey: 'stateId', onDelete: "cascade" });
       Operator.belongsTo(models.lga,{ foreignKey: 'lgaId', onDelete: "cascade" });

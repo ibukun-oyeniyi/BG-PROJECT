@@ -10,6 +10,16 @@ const getDetails = async (userId, done)=>{
     operatorDao.getDetails(userId, done)
 }
 
+const registerFieldOfficer = async (fieldOfficerData, done)=>{
+    //call the todoListdao findtodoList method
+    operatorDao.registerFieldOfficer(fieldOfficerData, done)
+}
+
+const getUnregisteredFieldOfficers = async (done)=>{
+    //call the todoListdao findtodoList method
+    operatorDao.getUnregisteredFieldOfficers(done)
+}
+
 module.exports={
-    createOperator,getDetails
+    createOperator,getDetails,registerFieldOfficer,getUnregisteredFieldOfficers
 }

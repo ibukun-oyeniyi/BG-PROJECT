@@ -8,6 +8,14 @@ const getDetails = async (userId, done)=>{
     operatorService.getDetails(userId, done)
 }
 
+const registerFieldOfficer = async (operatorData, done)=>{
+    operatorService.registerFieldOfficer(operatorData, done)
+}
+
+const getUnregisteredFieldOfficers = async (done) =>{
+    operatorService.getUnregisteredFieldOfficers(done)
+}
+
 module.exports={
-    createOperator,getDetails
+    createOperator,getDetails,registerFieldOfficer,getUnregisteredFieldOfficers
 }
