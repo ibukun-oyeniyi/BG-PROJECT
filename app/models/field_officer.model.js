@@ -1,15 +1,4 @@
-const db = require("../config/dbConfig");
 
-const generateFieldOfficerId = async () => {
-  const lastFieldOfficer = await db.field_officer.findOne({
-    order: [['id', 'DESC']],
-  });
-
-  const id = lastFieldOfficer ? lastFieldOfficer.id + 1 : 1;
-  const fieldOfficerId = `FO-${id.toString().padStart(6, '0')}`;
-
-  return fieldOfficerId;
-};
 
 module.exports = (sequelize, Sequelize) => {
     const FieldOfficer = sequelize.define("field_officer", {
@@ -77,10 +66,17 @@ module.exports = (sequelize, Sequelize) => {
       },
       fieldOfficerId:{
         type: Sequelize.STRING,
-        unique: true,
-        defaultValue: generateFieldOfficerId
       },
       
+    });
+
+    FieldOfficer.beforeCreate(async (fieldOfficer) => {
+      const lastFieldOfficer = await FieldOfficer.findOne({
+        order: [['id', 'DESC']],
+      });
+  
+      const id = lastFieldOfficer ? lastFieldOfficer.id + 1 : 1;
+      fieldOfficer.fieldOfficerId = `FO-${id.toString().padStart(6, '0')}`;
     });
   
     FieldOfficer.associate = function(models) {
