@@ -24,8 +24,8 @@ router.get('/:userId/view',verifyOperator,verifiedOperator,async (req,res)=>{
 router.post('/:userId/:operatorId',verifyOperator,verifiedOperator,async (req,res)=>{
     try{
         const userId = parseInt(req.params.userId)
-        const operatorId = parseInt(req.params.operatorId)
-        req.body["operatorId"] = operatorId
+        const operator_id = parseInt(req.params.operatorId)
+        req.body["operator_id"] = operator_id
         productController.createProduct(req.body,(err,result) =>{
             if (err){
                     return res.status(400).send({error: 'Error Creating product'})
