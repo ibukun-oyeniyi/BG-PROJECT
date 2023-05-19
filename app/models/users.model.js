@@ -12,9 +12,12 @@ module.exports = (sequelize, Sequelize) => {
       role: {
         type: Sequelize.ENUM("admin", "operator", "field_officer"),
         allowNull: false,
-        defaultValue: "operator"
       }
     });
+    User.associate = function(models) {
+      User.hasMany(models.field_officer);
+      
+    };
     
     return User;
   };
