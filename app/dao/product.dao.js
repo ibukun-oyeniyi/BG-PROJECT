@@ -7,10 +7,15 @@ const createProduct = async (productData, done) => {
       const [seed, createdSeed] = await db.seed.findOrCreate({
         where: { seedName: productData.seedName },
       });
+      const operator = await db.operator.findOne({
+        where: { operatorId: productData.operator_id },
+      });
       
   
       // Create a new operator row in the operators table with the specified user_id, state_id, and local_government_area_id
       productData["seedId"] = seed.id
+      productData["operatorId"] = operator.id
+
       const product = await db.product.create(productData);
       done(undefined, product);
     } catch (err) {

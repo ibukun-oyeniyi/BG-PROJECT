@@ -32,13 +32,13 @@ const verifyOperator = async (req, res, next) => {
             }
         }catch(err){
             res.status(400).json("user obj not found")
-        }
-        
+        }       
     })
 }
 
 const verifyAdmin = async (req, res, next) => {
     verifyToken(req, res, () => {
+        console.log(req.user)
         if (req.user.role === "admin") {
             next();
         } else {
