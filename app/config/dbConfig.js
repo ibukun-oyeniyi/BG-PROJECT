@@ -54,7 +54,7 @@ db.product = Product
 db.seed = Seed
 db.field_officer = FieldOfficer
 
-
+User.associate(db)
 Operator.associate(db)
 State.associate(db)
 Lga.associate(db)
