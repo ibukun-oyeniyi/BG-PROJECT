@@ -36,7 +36,15 @@ const getFieldOfficerById = async (operatorId,done)=>{
     adminDao.getFieldOfficerById(operatorId,done)
 }
 
+const startTestSession = async (userId,done)=>{
+  adminDao.startTestSession(userId,done)
+}
+
+const submitAnswer = async (sessionId,answerData,done)=>{
+  adminDao.submitAnswer(sessionId,answerData,done)
+}
+
 
 module.exports={
-    getFieldOfficerById,getFieldOfficers
+    getFieldOfficerById,getFieldOfficers,startTestSession,submitAnswer
 }

@@ -82,7 +82,7 @@ router.get('/user/:userId', verifyAdmin, (req, res) => {
   })
 
 //VERIFY A USER
-router.post('/verify/:operatorId', verifyAdmin, (req, res) => {
+router.get('/verify/:operatorId', verifyAdmin, (req, res) => {
     const operatorId = parseInt(req.params.operatorId)
     try {
       userController.verifyUser(operatorId,(err, result) => {
@@ -98,7 +98,7 @@ router.post('/verify/:operatorId', verifyAdmin, (req, res) => {
   })
 
 //GET ALL OPERATORS WITH THEIR FIELD OFFICERS
-router.get('/:userId/field-officers', verifyAdmin, (req, res) => {
+router.get('/field-officers', verifyAdmin, (req, res) => {
   try {
     adminController.getFieldOfficers((err, result) => {
       if (err) {
@@ -113,8 +113,8 @@ router.get('/:userId/field-officers', verifyAdmin, (req, res) => {
 })
 
 //GET ALL SPECIFIC FIELD OFFICERS UNDER AN OPERATOR
-router.get('/:userId/:operatorId/field-officers', verifyAdmin, (req, res) => {
-  const operatorId = parseInt(req.params.userId)
+router.get('/:operatorId/field-officers', verifyAdmin, (req, res) => {
+  const operatorId = parseInt(req.params.operatorId)
   try {
       adminController.getFieldOfficerById(operatorId,(err, result) => {
       if (err) {
@@ -128,6 +128,37 @@ router.get('/:userId/:operatorId/field-officers', verifyAdmin, (req, res) => {
   }
 })
 
+//GENERATE QUESTION FOR A USER
+router.get('/:userId/generate', verifyAdmin, (req, res) => {
+  const userId = parseInt(req.params.userId)
+  try {
+      adminController.startTestSession(userId,(err, result) => {
+      if (err) {
+        return res.status(400).send({ error: err })
+      } else {
+        return res.status(200).send(result)
+      }
+    })
+  } catch (err) {
+    res.status(400).send({ error: 'Unexpected error when generating questions' })
+  }
+})
+
+//SUBMIT QUESTION FOR A USER
+router.post('/:sessionId/submit', verifyAdmin, (req, res) => {
+  const sessionId = parseInt(req.params.sessionId)
+  try {
+      adminController.submitAnswer(sessionId,req.body,(err, result) => {
+      if (err) {
+        return res.status(400).send({ error: err })
+      } else {
+        return res.status(200).send(result)
+      }
+    })
+  } catch (err) {
+    res.status(400).send({ error: 'Unexpected error while verifying the user' })
+  }
+})
 
 
 module.exports = router
