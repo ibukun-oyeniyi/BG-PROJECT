@@ -3,6 +3,7 @@ const { createError } = require("../utils/error")
 
 //Verifying the token generated in the login Page
 const verifyToken = async (req, res, next) => {
+    console.log("user")
     const authHeader = req.headers.authorization
     if (authHeader) {
         const token = authHeader.split(" ")[1]
@@ -24,7 +25,7 @@ const verifyToken = async (req, res, next) => {
 const verifyOperator = async (req, res, next) => {
     verifyToken(req, res, () => {
         try{
-            if (req.user.id === parseInt(req.params.userId) && req.user.role === "operator") {
+            if (req.user && req.user.id === parseInt(req.params.userId) && req.user.role === "operator") {
                 next();
             } 
              else {
@@ -38,14 +39,13 @@ const verifyOperator = async (req, res, next) => {
 
 const verifyAdmin = async (req, res, next) => {
     verifyToken(req, res, () => {
-        console.log(req.user)
-        if (req.user.role === "admin") {
-            next();
-        } else {
-            res.status(200).json("You are not an Admin, so you are not Authorized to do this")
-        }
+      if (req.user && req.user.role && req.user.role === "admin") {
+        next();
+      } else {
+        res.status(200).json("You are not an Admin, so you are not Authorized to do this");
+      }
     });
-}
+  };
 
 
 

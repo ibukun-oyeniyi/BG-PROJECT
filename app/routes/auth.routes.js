@@ -1,6 +1,7 @@
 const express = require('express')
 const authController = require('../controller/auth.controller')
 const {validateRegister} = require("../middleware/validateRegister.middleware")
+const { validateLogin } = require('../middleware/validateLogin')
 const router = express.Router()
 
 //REGISTER A USER
@@ -22,10 +23,11 @@ router.post('/register',validateRegister,(req,res)=>{
     }
 })
 
-router.post("/login",(req,res)=>{
+router.post("/login",validateLogin,(req,res)=>{
     try{
         //retrive email and password from req.body
         const {email, password} = req.body
+        console.log(email)
         if(!(email && password)){
                 return res.status(400).send('Required inputs are missing')
         } 
