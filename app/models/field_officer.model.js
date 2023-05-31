@@ -38,11 +38,6 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.DATEONLY,
         allowNull: false,
       },
-      nin: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
       bvn: {
         type: Sequelize.STRING,
         allowNull: false,
