@@ -74,14 +74,20 @@ const createOperator = async (operatorData, done) => {
         where: { name: fieldOfficerData.lga },
         defaults: { stateId: state.id }
       });
-
+      
       //get operator_id -- add condition to be sure it finds
       const operatorId = await db.operator.findOne({
         where: { userId: fieldOfficerData.userId },
       });
 
+      
       const userId = fieldOfficerData.field_officer_id
-
+      const recruitedFieldOfficer = await db.field_officer.findOne({
+        where:{userId:userId}
+      })
+      if (recruitedFieldOfficer){
+        return done(`field officer of ID ${userId} as already been recruited`)
+      }
 
       // Create a new field officer row in the field officer table with the specified user_id, state_id, and local_government_area_id
       fieldOfficerData["stateId"] = state.id
@@ -90,6 +96,7 @@ const createOperator = async (operatorData, done) => {
       fieldOfficerData['userId'] = userId
       const field_officer = await db.field_officer.create(fieldOfficerData);
       const response = {
+        fieldOfficerId: field_officer.fieldOfficerId,
         firstName: field_officer.firstName,
         lastName: field_officer.lastName,
         phone:field_officer.phone,
@@ -101,8 +108,7 @@ const createOperator = async (operatorData, done) => {
       };
       done(undefined, response);
     } catch (err) {
-      console.log(err);
-      done("Error creating operator");
+      done(err);
     }
   };
   
@@ -118,7 +124,7 @@ const createOperator = async (operatorData, done) => {
        
     } catch (err) {
       console.log(err);
-      done("Error getting operator");
+      done(err);
     }
   };
 

@@ -18,6 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage})
 const bodyParser = require('body-parser');
 const {validateOperatorData} = require("../middleware/validateOperatorData.middleware")
+const { verifiedOperator } = require('../middleware/verifiedOperator.middleware')
 
 router.post('/auth/register',validateRegister,(req,res)=>{
     try{
@@ -96,7 +97,7 @@ router.post('/:userId/submit',verifyOperator,upload.single('file'), bodyParser.u
     }
 })
 //Endpoint to register Field Officer
-router.post('/:userId/register/field-officer',verifyOperator,upload.single('ID'), bodyParser.urlencoded({ extended: true }),validateFieldOfficerData,async (req,res)=>{
+router.post('/:userId/register/field-officer',verifyOperator,verifiedOperator,upload.single('ID'), bodyParser.urlencoded({ extended: true }),validateFieldOfficerData,async (req,res)=>{
     try{
         if(req.file){
         req.body.governmentIdImage = req.file.filename
@@ -106,11 +107,11 @@ router.post('/:userId/register/field-officer',verifyOperator,upload.single('ID')
         }
         const userId = parseInt(req.params.userId)
         console.log(userId)
-        req.body["userId"] = userId 
+        req.body["userId"] = userId
         
         operatorController.registerFieldOfficer(req.body,(err,result) =>{
             if (err){
-                    return res.status(400).send({error: 'Error submitting Operator Details'})
+                    return res.status(400).send({error: err})
             }else{
                     return res.status(201).send(result)
             }
