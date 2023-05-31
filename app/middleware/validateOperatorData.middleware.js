@@ -16,7 +16,7 @@ function validateOperatorData(req, res, next) {
   const missingFields = [];
   if (!firstName) missingFields.push('firstName');
   if (!lastName) missingFields.push('lastName');
-  if (!phone) missingFields.push('phoneNumber');
+  if (!phone) missingFields.push('phone');
   if (!nationality) missingFields.push('nationality');
   if (!sex) missingFields.push('sex');
   if (!dateOfBirth) missingFields.push('dateOfBirth');

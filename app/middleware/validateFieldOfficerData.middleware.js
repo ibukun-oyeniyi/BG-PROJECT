@@ -12,7 +12,6 @@ function validateFieldOfficerData(req, res, next) {
     governmentId,
     governmentIdType,
     dateOfBirth,
-    nin,
     state,
     lga,
     field_officer_id
@@ -25,7 +24,6 @@ function validateFieldOfficerData(req, res, next) {
   if (!nationality) missingFields.push('nationality');
   if (!sex) missingFields.push('sex');
   if (!dateOfBirth) missingFields.push('dateOfBirth');
-  if (!nin) missingFields.push('nin');
   if (!state) missingFields.push('state');
   if (!lga) missingFields.push('lga');
   if (!bvn) missingFields.push('bvn');
@@ -48,22 +46,15 @@ function validateFieldOfficerData(req, res, next) {
     return res.status(400).json({ message });
   }
 
-  const ninRegex = /^\d{11}$/;
-  if (!ninRegex.test(nin)) {
-    const message =
-      'Invalid nin. Must be 11 digits';
-    return res.status(400).json({ message });
-  }
-
-  const bvnRegex = /^\d{10}$/;
+  const bvnRegex = /^\d{11}$/;
   if (!bvnRegex.test(bvn)) {
     const message =
-      'Invalid BVN. Must be 10 digits';
+      'Invalid BVN. Must be 11 digits';
     return res.status(400).json({ message });
   }
 // Validate the Id type
 const validID = ["nin","drivers license","national id","passport","voters Card"];
-if (!validID.includes(governmentIdType)) {
+if (!validID.includes(governmentIdType.toLowerCase())) {
   const message = `must include on of the following ${validID}`;
   return res.status(400).json({ message });
 }
@@ -98,7 +89,6 @@ if (!validID.includes(governmentIdType)) {
     nationality,
     sex,
     dateOfBirth,
-    nin,
     bvn,
     hub,
     governmentId,
