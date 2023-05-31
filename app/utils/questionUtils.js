@@ -18,10 +18,10 @@ function readQuestionsFromCSV(filePath) {
       .on('data', (row) => {
         const options = row.options.split('__');
         const question = {
-          id: row.id,
+          question_id: row.id,
           category: row.category,
-          question: row.question,
-          ans: row.answer,
+          question_text: row.question,
+          answer: row.answer,
           options: options,
         };
         questions.push(question);
@@ -64,19 +64,19 @@ function generateRandomQuestionsByCategory(groupedQuestions, numQuestionsPerCate
     return randomQuestions;
   }
 
-// async function testCsv() {
-//   try {
-//     const filePath = '../data/questions.csv';
-//     const questions = await readQuestionsFromCSV(filePath);
-//     const groupedQuestions = groupQuestionsByCategory(questions);
-//     // Generate random questions from each category
-//     const numQuestionsPerCategory = 5;
-//     const randomQuestions = generateRandomQuestionsByCategory(groupedQuestions, numQuestionsPerCategory);
-//     return randomQuestions;
-//   } catch (error) {
-//     throw new Error('Error reading questions from CSV file');
-//   }
-// }
+async function testCsv() {
+  try {
+    const filePath = '../data/questions.csv';
+    const questions = await readQuestionsFromCSV(filePath);
+    const groupedQuestions = groupQuestionsByCategory(questions);
+    // Generate random questions from each category
+    const numQuestionsPerCategory = 5;
+    const randomQuestions = generateRandomQuestionsByCategory(groupedQuestions, numQuestionsPerCategory);
+    return randomQuestions;
+  } catch (error) {
+    throw new Error('Error reading questions from CSV file');
+  }
+}
 
 // Usage:
 // testCsv()
