@@ -44,6 +44,8 @@ const Lga = require("../models/Lga.model.js")(sequelize, Sequelize)
 const Product = require("../models/product.model.js")(sequelize, Sequelize)
 const Seed = require("../models/seed.model.js")(sequelize, Sequelize)
 const FieldOfficer = require("../models/field_officer.model.js")(sequelize, Sequelize)
+const Question = require("../models/question.model.js")(sequelize, Sequelize)
+const UserAnswer = require("../models/user_answer.model.js")(sequelize, Sequelize)
 
 
 db.user = User;
@@ -53,6 +55,8 @@ db.lga = Lga
 db.product = Product
 db.seed = Seed
 db.field_officer = FieldOfficer
+db.question = Question
+db.user_answer = UserAnswer
 
 User.associate(db)
 Operator.associate(db)
@@ -61,5 +65,6 @@ Lga.associate(db)
 Product.associate(db)
 Seed.associate(db)
 FieldOfficer.associate(db)
+UserAnswer.associate(db)
 
 module.exports = db
